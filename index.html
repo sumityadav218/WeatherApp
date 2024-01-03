@@ -1,0 +1,60 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/background.css" />
+
+  <title>Weather App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgw84Qx1ssE0rTH6p1rlW7By35W_sveJADULx1n_J8cg&s/500px" alt="Weather App Logo" class="logo">
+          </div>
+  <h1>Welcome to the Weather App!</h1>
+  <form id="weatherForm">
+    <label for="cityInput">Enter City:</label>
+    <input type="text" id="cityInput" name="city" required>
+    <button type="submit">Get Weather</button>
+  </form>
+  <div id="weatherInfo"></div>
+</div>
+  <script>
+<!-- Add this inside the <script> tag in your index.html -->
+document.getElementById('weatherForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+  
+  const city = document.getElementById('cityInput').value;
+
+  try {
+    const response = await fetch(`/weather?city=${city}`);
+    const data = await response.json();
+
+    // Convert temperature from Kelvin to Celsius
+    const temperatureCelsius = (data.main.temp - 273.15).toFixed(2);
+
+    const weatherInfo = `
+      City: ${data.name}<br>
+      Temperature: ${temperatureCelsius}°C<br>
+      Description: ${data.weather[0].description}<br>
+      Humidity: ${data.main.humidity}%<br>
+      Wind Speed: ${data.wind.speed} m/s<br>
+      Cloudiness: ${data.clouds.all}%<br>
+      Coordinates: [${data.coord.lon}, ${data.coord.lat}]<br>
+    `;
+
+    document.getElementById('weatherInfo').innerHTML = weatherInfo;
+  } catch (error) {
+    console.error(error);
+    document.getElementById('weatherInfo').innerHTML = 'Error fetching weather information.';
+  }
+});
+
+
+  </script>
+</body>
+</html>
