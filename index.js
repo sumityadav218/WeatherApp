@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connect to Local MongoDB
-mongoose.connect('mongodb://localhost:27017/weatherdb', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://weather:weather@cluster0.c131ujj.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/weather', weatherRoutes);
 app.use(express.static('public'));
